@@ -19,7 +19,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title>My Angular Yii Application</title>
+    <title>Angular Yii каркас-приложение</title>
     <?php $this->head() ?>
     <script>paceOptions = {ajax: {trackMethods: ['GET', 'POST']}};</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.js"></script>
@@ -33,31 +33,35 @@ AppAsset::register($this);
         <div class="container">
             <div class="navbar-header">
                 <button ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed" type="button" class="navbar-toggle">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only">Переключить навигацию</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span></button>
-                <a class="navbar-brand" href="#/">My Company</a>
+                <a class="navbar-brand" href="#/">Jeshio</a>
             </div>
             <div ng-class="!navCollapsed && 'in'" ng-click="navCollapsed=true" class="collapse navbar-collapse" >
                 <ul class="navbar-nav navbar-right nav">
                     <li data-match-route="/$">
-                        <a href="#/">Home</a>
+                        <a href="#/">Главная</a>
                     </li>
                     <li data-match-route="/about">
-                        <a href="#/about">About</a>
+                        <a href="#/about">О сайте</a>
                     </li>
                     <li data-match-route="/contact">
-                        <a href="#/contact">Contact</a>
+                        <a href="#/contact">Контакты</a>
                     </li>
                     <li data-match-route="/dashboard" ng-show="loggedIn()" class="ng-hide">
-                        <a href="#/dashboard">Dashboard</a>
+                        <a href="#/dashboard">Личный кабинет</a>
                     </li>
                     <li ng-class="{active:isActive('/logout')}" ng-show="loggedIn()" ng-click="logout()"  class="ng-hide">
-                        <a href="">Logout</a>
+                        <a href="">Выйти</a>
                     </li>
                     <li data-match-route="/login" ng-hide="loggedIn()">
-                        <a href="#/login">Login</a>
+                        <a href="#/login">Войти</a>
+                    </li>
+
+                    <li data-match-route="/signup" ng-hide="loggedIn()">
+                        <a href="#/signup">Присоединиться</a>
                     </li>
                 </ul>
             </div>
@@ -77,7 +81,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Jeshio <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

@@ -21,6 +21,10 @@ app.config(['$routeProvider', '$httpProvider',
                 templateUrl: 'partials/login.html',
                 controller: 'LoginController'
             }).
+            when('/signup', {
+                templateUrl: 'partials/signup.html',
+                controller: 'SignupController'
+            }).
             when('/dashboard', {
                 templateUrl: 'partials/dashboard.html',
                 controller: 'DashboardController'

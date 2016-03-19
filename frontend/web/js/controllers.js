@@ -67,3 +67,23 @@ controllers.controller('LoginController', ['$scope', '$http', '$window', '$locat
         };
     }
 ]);
+
+controllers.controller('SignupController', ['$scope', '$http', '$window', '$location',
+    function($scope, $http, $window, $location) {
+        $scope.signup = function () {
+            $scope.submitted = true;
+            $scope.error = {};
+            $http.post('index.php/api/signup', $scope.userModel).success(
+                function (data) {
+                    $window.sessionStorage.access_token = data.access_token;
+                    $location.path('/dashboard').replace();
+            }).error(
+                function (data) {
+                    angular.forEach(data, function (error) {
+                        $scope.error[error.field] = error.message;
+                    });
+                }
+            );
+        };
+    }
+]);

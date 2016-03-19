@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 use Yii;
 use common\models\LoginForm;
+use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\filters\ContentNegotiator;
 use yii\web\Response;
@@ -52,6 +53,20 @@ class ApiController extends Controller
             return $model;
         }
     }
+
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->getRequest()->getBodyParams(), '') &&
+          $model->signup())
+        {
+            return ['access_token' => Yii::$app->user->identity->getAuthKey()];
+        } else {
+            $model->validate();
+            return $model;
+        }
+    }
+
     public function actionDashboard()
     {
         $response = [

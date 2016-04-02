@@ -18,6 +18,11 @@ Thumbs.db
 # composer vendor dir
 /vendor
 
+# nodejs, gulp
+/node_modules
+package.json
+gulpfile.js
+
 # composer itself is not needed
 composer.phar
 

@@ -1,7 +1,8 @@
 var app = angular.module('app', [
     'ngRoute',      //$routeProvider
     'mgcrea.ngStrap',//bs-navbar, data-match-route directives
-    'controllers'       //Our module frontend/web/js/controllers.js
+    'controllers',       //Our module frontend/web/js/controllers.js
+    'ngMaterial'
 ]);
 
 app.config(['$routeProvider', '$httpProvider',
@@ -29,12 +30,25 @@ app.config(['$routeProvider', '$httpProvider',
                 templateUrl: 'partials/dashboard.html',
                 controller: 'DashboardController'
             }).
+            when('/logout', {
+                redirectTo: '/'
+            }).
             otherwise({
-                templateUrl: 'partials/404.html'
+                templateUrl: 'partials/error.html'
             });
         $httpProvider.interceptors.push('authInterceptor');
     }
 ]);
+
+app.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('default')
+    .primaryPalette('orange')
+    .accentPalette('deep-orange');
+});
+
+app.config(function($mdIconProvider) {
+  $mdIconProvider.fontSet('fa', 'fontawesome');
+});
 
 app.factory('authInterceptor', function ($q, $window, $location) {
     return {

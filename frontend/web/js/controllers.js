@@ -1,13 +1,67 @@
 var controllers = angular.module('controllers', []);
-controllers.controller('MainController', ['$scope', '$location', '$window',
-    function ($scope, $location, $window) {
+controllers.controller('MainController', ['$scope', '$location', '$window', '$mdSidenav',
+    function ($scope, $location, $window, $mdSidenav) {
         $scope.loggedIn = function() {
             return Boolean($window.sessionStorage.access_token);
         };
-        $scope.logout = function () {
-            delete $window.sessionStorage.access_token;
-            $location.path('/login').replace();
+        $scope.unLoggedIn = function() {
+            return !Boolean($window.sessionStorage.access_token);
         };
+        $scope.logout = function () {
+          console.log("Удалить");
+            console.log($window.sessionStorage);
+            delete $window.sessionStorage.access_token;
+            $location.path('/').replace();
+        };
+        $scope.isActive = function (viewLocation) {
+             var active = (viewLocation === $location.path());
+             return active;
+        };
+        $scope.openLeftMenu = function () {
+          $mdSidenav('leftNav').toggle();
+          $scope.$broadcast('$routeChangeSuccess', eventData);
+        }
+
+        // менюшки
+        var menuTabs = [
+          { icon: 'list', click: $scope.openLeftMenu },
+          { title: 'Главная', link: '/' },
+          { title: 'О сайте', link: '/about' },
+          { title: 'Контакты', link: '/contact' },
+          { title: 'Личный кабинет', link: '/dashboard', hide: $scope.unLoggedIn },
+          { title: 'Войти', link: '/login', hide: $scope.loggedIn },
+          { title: 'Выйти', link: '/logout', hide: $scope.unLoggedIn, click: $scope.logout, button: true },
+          { title: 'Присоединиться', link: '/signup', hide: $scope.loggedIn },
+        ];
+        $scope.menuTabs = menuTabs;
+
+        $scope.selectedMenu = -1;
+        // выьор вкладки по url
+        $scope.$on('$routeChangeSuccess', function(event, next, current) {
+          if (next.$$route != undefined) {
+            var path = next.$$route.originalPath;
+            for (var i = 0; i < menuTabs.length; i++) {
+              if (menuTabs[i].link == path)
+              {
+                $scope.selectedMenu = i;
+              }
+            }
+          }
+        });
+
+        $scope.$watch('selectedMenu', function(current, old){
+          if (old in menuTabs) {
+            var tab = menuTabs[current];
+            if (tab.link != undefined) {
+              if (!tab.button) {
+                $location.path(tab.link).replace();
+              }
+              else {
+                $location.path('/').replace();
+              }
+            }
+          }
+        });
     }
 ]);
 

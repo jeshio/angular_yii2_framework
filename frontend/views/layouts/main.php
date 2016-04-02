@@ -18,17 +18,65 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Angular Material Yii2 Framework">
     <?= Html::csrfMetaTags() ?>
     <title>Angular Yii каркас-приложение</title>
     <?php $this->head() ?>
     <script>paceOptions = {ajax: {trackMethods: ['GET', 'POST']}};</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/red/pace-theme-minimal.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body ng-controller="MainController">
+<body ng-cloak ng-controller="MainController" layout="column">
 <?php $this->beginBody() ?>
 
-<div class="wrap">
+    <md-toolbar>
+      <md-tabs md-selected="selectedMenu" md-border-bottom >
+        <md-tab ng-repeat="tab in menuTabs"
+                md-on-select="tab.active = true; tab.click()"
+                md-on-deselect="tab.active = false"
+                ng-disabled="tab.hide()"
+                >
+                <md-icon ng-show="tab.icon"> {{tab.icon}} </md-icon>
+                <a href="#{{tab.link}}" ng-class="{ 'active': tab.active }" ng-show="tab.link">{{tab.title}}</a>
+        </md-tab>
+      </mb-tabs>
+    </md-toolbar>
+
+    <div class="container" layout="row" flex>
+        <md-sidenav md-component-id="leftNav" class="md-whiteframe-z2">
+          <md-list>
+            <md-list-item >
+                <md-button>
+                  First Level
+                </md-button>
+            </md-list-item>
+
+            <md-list-item >
+                <md-button>
+                  Second Level
+                </md-button>
+            </md-list-item>
+
+          </md-list>
+        </md-sidenav>
+        <md-content id="content" class="lightgreen" flex>
+          <?= Breadcrumbs::widget([
+              'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+          ]) ?>
+          <?= Alert::widget() ?>
+          <div ng-view>
+          </div>
+        </md-content>
+    </div>
+
+    <footer class="md-padding">
+      <div flex>
+          © 2016 Jeshio
+      </div>
+    </footer>
+
+<!-- <div class="wrap">
     <nav class="navbar-inverse navbar-fixed-top navbar" role="navigation"  bs-navbar>
         <div class="container">
             <div class="navbar-header">
@@ -85,7 +133,7 @@ AppAsset::register($this);
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
-</footer>
+</footer> -->
 
 <?php $this->endBody() ?>
 </body>
